@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import PageHeader from "@/components/PageHeader";
-import EventCard from "@/components/EventCard";
+import Layout from "@/components/Layout";
+import Panel from "@/components/Panel";
+import EventList from "@/components/EventList";
 import { pastEvents } from "@/content/events";
 import { parseDate } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "Past events",
-  description: "An archive of what the chapter has organized.",
+  title: "past events",
+  description: "an archive of what the chapter has organized.",
 };
 
 export default function PastEventsPage() {
@@ -22,35 +23,31 @@ export default function PastEventsPage() {
   const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
 
   return (
-    <>
-      <PageHeader
-        eyebrow="Archive"
-        title="Past events"
-        lede="What we've organized, semester by semester. A record for members, and for whoever runs this club next."
-      />
+    <Layout>
+      {years.length > 0 ? (
+        years.map((year) => (
+          <Panel
+            key={year}
+            title={year}
+            aside={`${byYear[year].length} event${byYear[year].length === 1 ? "" : "s"}`}
+          >
+            <EventList events={byYear[year]} detailed />
+          </Panel>
+        ))
+      ) : (
+        <Panel title="archive">
+          <p className="text-gray-500 italic">no past events recorded yet.</p>
+        </Panel>
+      )}
 
-      <section className="section">
-        <div className="container">
-          {years.length > 0 ? (
-            years.map((year) => (
-              <div key={year} className="year-block">
-                <h2 className="year-heading">{year}</h2>
-                <div className="event-list">
-                  {byYear[year].map((e) => (
-                    <EventCard key={e.slug} event={e} past />
-                  ))}
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="muted">No past events recorded yet.</p>
-          )}
-
-          <p className="small muted" style={{ marginTop: "2.5rem" }}>
-            <Link href="/events">&larr; Back to upcoming events</Link>
-          </p>
-        </div>
-      </section>
-    </>
+      <p className="mt-2">
+        <Link
+          href="/events"
+          className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
+        >
+          back to upcoming
+        </Link>
+      </p>
+    </Layout>
   );
 }

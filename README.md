@@ -1,7 +1,8 @@
 # Rice Young Democrats — website
 
-A small, static Next.js site. Clean and traditional by design: no animation
-libraries, no CMS, no build-time magic. All content lives in plain TypeScript
+A small, static Next.js site, styled after [jackvu.me](https://www.jackvu.me).
+Azeret Mono throughout, hard 1px black panels, tiny lowercase chrome, and a
+white card floating on a dotted field. All content lives in plain TypeScript
 files under `content/`, so anyone on the board can update the site by editing
 one file and opening a pull request.
 
@@ -53,10 +54,19 @@ permission before posting identifiable photos of people.
 
 ## Design
 
-One stylesheet: `app/globals.css`. The tokens at the top (colors, fonts,
-widths) drive everything else — change `--navy` and the whole site follows.
-Headings are set in a serif stack, body copy in the system sans stack, so there
-are no webfonts to load.
+Tailwind, matching the setup on jackvu.me. The whole layout is built from one
+primitive — `components/Panel.tsx` — a bordered label strip with a `border-t-0`
+body box directly beneath it. Pages are a stack of panels, optionally in a
+1/3 sidebar + 2/3 main split via `components/Layout.tsx`.
+
+- `tailwind.config.ts` — colors (`ink`, `dem-blue`, `dem-red`), the `2xs`/`3xs`
+  type sizes, and `tracking-very-tight`
+- `app/globals.css` — the dotted background, the card width steps, and the
+  `.panel-head` / `.panel-body` / `.row-divide` rules
+
+Chrome (nav, panel labels, tags, bylines) is lowercased in CSS; body prose stays
+sentence-case so the Resources and Stories pages remain readable. If you want it
+fully lowercase like jackvu.me, that's one `lowercase` class on the layout.
 
 ## Deploying
 

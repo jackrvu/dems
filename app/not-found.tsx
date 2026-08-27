@@ -1,23 +1,28 @@
 import Link from "next/link";
+import Layout from "@/components/Layout";
+import Panel from "@/components/Panel";
 
 export default function NotFound() {
   return (
-    <section className="section" style={{ padding: "6rem 0" }}>
-      <div className="container narrow">
-        <p className="eyebrow">404</p>
-        <h1>That page isn&rsquo;t here</h1>
-        <p className="lede">
-          The link may be old, or the page may have moved.
+    <Layout>
+      <Panel title="404">
+        <p>that page isn&rsquo;t here. the link may be old, or it may have moved.</p>
+        <p className="mt-2">
+          <Link
+            href="/"
+            className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
+          >
+            home
+          </Link>
+          {" · "}
+          <Link
+            href="/events"
+            className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
+          >
+            upcoming events
+          </Link>
         </p>
-        <div className="btn-row">
-          <Link className="btn" href="/">
-            Back to the homepage
-          </Link>
-          <Link className="btn btn-outline" href="/events">
-            See what&rsquo;s coming up
-          </Link>
-        </div>
-      </div>
-    </section>
+      </Panel>
+    </Layout>
   );
 }

@@ -1,114 +1,111 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/PageHeader";
+import Layout from "@/components/Layout";
+import Panel from "@/components/Panel";
 import { board, committees } from "@/content/team";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "About",
-  description: "Who we are, what we do, and the students who run it.",
+  title: "about",
+  description: "who we are, what we do, and the students who run it.",
 };
 
 function initials(name: string) {
   const clean = name.replace(/\[|\]/g, "").trim();
   const parts = clean.split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return "RYD";
-  return (parts[0][0] + (parts[1]?.[0] ?? "")).toUpperCase();
+  if (parts.length === 0) return "ryd";
+  return (parts[0][0] + (parts[1]?.[0] ?? "")).toLowerCase();
 }
 
 export default function AboutPage() {
-  return (
+  const sidebar = (
     <>
-      <PageHeader
-        eyebrow="About"
-        title="Who we are"
-        lede="A student-run chapter that registers voters, works campaigns, and argues in good faith about where the party should go."
-      />
+      <Panel title="mission">
+        <p>
+          rice young democrats exists to give students a practical way to act on
+          their politics.
+        </p>
+        <p className="mt-2 text-gray-600">
+          that means the unglamorous work — registration tables, door knocking,
+          phone banks, rides to the polls — alongside the conversations that
+          make the work worth doing.
+        </p>
+        <p className="mt-2 text-gray-600">
+          you do not need experience, a poli sci major, or a settled opinion on
+          every issue. you need to be willing to show up.
+        </p>
+        <p className="mt-2 text-gray-500 italic">
+          replace this copy in app/about/page.tsx with the club&rsquo;s own
+          words.
+        </p>
+      </Panel>
 
-      <section className="section">
-        <div className="container narrow">
-          <h2>Our mission</h2>
-          <p>
-            Rice Young Democrats exists to give students a practical way to act
-            on their politics. That means the unglamorous work — registration
-            tables, door knocking, phone banks, rides to the polls — alongside
-            the conversations that make the work worth doing.
-          </p>
-          <p>
-            We are open to every Rice student. You do not need experience, a
-            political science major, or a settled opinion on every issue. You
-            need to be willing to show up.
-          </p>
-          <p className="muted small">
-            {/* TODO: replace this section with the club's own language —
-                founding year, chapter affiliation, and what this board is
-                prioritizing this year. */}
-            Editor&rsquo;s note: replace this copy in{" "}
-            <code>app/about/page.tsx</code> with the club&rsquo;s own words.
-          </p>
+      <Panel title="reach us">
+        <a
+          href={`mailto:${site.email}`}
+          className="hover:text-indigo-400 transition-colors duration-200"
+        >
+          {site.email}
+        </a>
+        <p className="mt-2 text-gray-600">{site.mailingAddress}</p>
+      </Panel>
+
+      <Panel title="committees">
+        <div className="row-divide">
+          {committees.map((c) => (
+            <div key={c.name}>
+              <h3 className="font-bold lowercase">{c.name}</h3>
+              <p className="text-gray-600">{c.description}</p>
+              {c.lead ? (
+                <p className="text-gray-600">lead: {c.lead}</p>
+              ) : null}
+            </div>
+          ))}
         </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <div className="section-head">
-            <p className="eyebrow">The team</p>
-            <h2>Executive board</h2>
-            <p>
-              Reach any of us at{" "}
-              <a href={`mailto:${site.email}`}>{site.email}</a>.
-            </p>
-          </div>
-
-          <div className="grid grid-3">
-            {board.map((m, i) => (
-              <article key={`${m.name}-${i}`} className="person">
-                {m.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img className="person-photo" src={m.image} alt={m.name} />
-                ) : (
-                  <div className="person-photo person-monogram" aria-hidden="true">
-                    {initials(m.name)}
-                  </div>
-                )}
-                <h3>{m.name}</h3>
-                <p className="person-role">{m.role}</p>
-                <p className="small muted">
-                  {[m.year, m.college, m.major].filter(Boolean).join(" · ")}
-                </p>
-                {m.bio ? <p>{m.bio}</p> : null}
-                {m.email ? (
-                  <p className="small">
-                    <a href={`mailto:${m.email}`}>{m.email}</a>
-                  </p>
-                ) : null}
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <div className="section-head">
-            <p className="eyebrow">Committees</p>
-            <h2>Where the work happens</h2>
-            <p>
-              Members pick a committee at the start of each semester. Most of
-              the club&rsquo;s day-to-day runs through these four.
-            </p>
-          </div>
-
-          <div className="grid grid-4">
-            {committees.map((c) => (
-              <div key={c.name} className="card">
-                <h3>{c.name}</h3>
-                <p>{c.description}</p>
-                {c.lead ? <p className="small">Lead: {c.lead}</p> : null}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      </Panel>
     </>
+  );
+
+  return (
+    <Layout sidebar={sidebar}>
+      <Panel title="executive board" aside={`${board.length} members`}>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {board.map((m, i) => (
+            <div key={`${m.name}-${i}`}>
+              {m.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={m.image}
+                  alt={m.name}
+                  className="w-full aspect-[4/5] object-cover border border-black mb-1"
+                />
+              ) : (
+                <div
+                  className="w-full aspect-[4/5] border border-black mb-1 flex items-center justify-center monogram text-base text-gray-500"
+                  aria-hidden="true"
+                >
+                  {initials(m.name)}
+                </div>
+              )}
+              <h3 className="font-bold">{m.name}</h3>
+              <p className="text-dem-red lowercase">{m.role}</p>
+              <p className="text-gray-600 lowercase">
+                {[m.year, m.college, m.major].filter(Boolean).join(" · ")}
+              </p>
+              {m.bio ? <p className="text-gray-600 mt-1">{m.bio}</p> : null}
+              {m.email ? (
+                <p className="mt-1">
+                  <a
+                    href={`mailto:${m.email}`}
+                    className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
+                  >
+                    email
+                  </a>
+                </p>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      </Panel>
+    </Layout>
   );
 }

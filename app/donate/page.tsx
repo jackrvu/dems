@@ -1,136 +1,162 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import PageHeader from "@/components/PageHeader";
+import Layout from "@/components/Layout";
+import Panel from "@/components/Panel";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Donate",
-  description: "Support voter registration, canvassing, and programming at Rice.",
+  title: "donate",
+  description: "support voter registration, canvassing, and programming at rice.",
 };
 
 export default function DonatePage() {
   const donateUrl = site.links.donate;
 
-  return (
+  const sidebar = (
     <>
-      <PageHeader
-        eyebrow="Support us"
-        title="Fund the work"
-        lede="We run on a small budget. Contributions pay for the clipboards, printing, vans, and pizza that make organizing possible."
-      />
-
-      <section className="section">
-        <div className="container narrow">
-          <h2>Where the money goes</h2>
-          <div className="grid grid-2" style={{ margin: "1.5rem 0 2.5rem" }}>
-            <div className="card">
-              <h3>Voter registration</h3>
-              <p>
-                Printing applications, tabling supplies, and deputy registrar
-                materials for drives on campus.
-              </p>
-            </div>
-            <div className="card">
-              <h3>Getting to the turf</h3>
-              <p>
-                Gas, parking, and van rentals so members can canvass in
-                neighborhoods off campus.
-              </p>
-            </div>
-            <div className="card">
-              <h3>Programming</h3>
-              <p>
-                Speaker travel, room and A/V costs, and food at meetings — the
-                thing that actually gets people in the room.
-              </p>
-            </div>
-            <div className="card">
-              <h3>The banquet</h3>
-              <p>
-                One night a year to thank the members who knocked doors all
-                semester.
-              </p>
-            </div>
-          </div>
-
-          {donateUrl ? (
-            <div className="btn-row" style={{ marginTop: 0 }}>
-              <a className="btn" href={donateUrl}>
-                Give now
+      <Panel title="give">
+        {donateUrl ? (
+          <>
+            <a
+              href={donateUrl}
+              className="font-semibold text-dem-red hover:text-red-800 transition-colors duration-200"
+            >
+              give now
+            </a>
+            <p className="mt-2 text-gray-600">
+              or email{" "}
+              <a
+                href={`mailto:${site.email}`}
+                className="hover:text-indigo-400 transition-colors duration-200"
+              >
+                {site.email}
+              </a>{" "}
+              to give another way or sponsor a specific event.
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="text-gray-600">
+              donations are not open yet. set up a payment link, then paste it
+              into <code>site.links.donate</code> in{" "}
+              <code>content/site.ts</code> — this panel becomes a give button.
+            </p>
+            <p className="mt-2 text-gray-600">
+              in the meantime, email{" "}
+              <a
+                href={`mailto:${site.email}`}
+                className="hover:text-indigo-400 transition-colors duration-200"
+              >
+                {site.email}
               </a>
-              <a className="btn btn-outline" href={`mailto:${site.email}`}>
-                Give another way
-              </a>
-            </div>
-          ) : (
-            <div className="note">
-              <h4>Donations are not open yet</h4>
-              <p className="small">
-                Set up a payment link, then paste it into{" "}
-                <code>site.links.donate</code> in <code>content/site.ts</code>.
-                This panel is replaced by a &ldquo;Give now&rdquo; button as soon
-                as that value is filled in. In the meantime, email{" "}
-                <a href={`mailto:${site.email}`}>{site.email}</a> to give or to
-                sponsor a specific event.
-              </p>
-            </div>
-          )}
+              .
+            </p>
+          </>
+        )}
+      </Panel>
 
-          <hr />
-
-          <h2>Before you turn this on</h2>
-          <p className="muted">
-            Political fundraising has rules, and a student chapter sits in an
-            awkward spot between campus policy and campaign finance law. Confirm
-            all of the following before publishing a donate link:
-          </p>
-          <ul className="checklist">
-            <li>
-              <strong>Rice policy.</strong> Check with Student Activities and the
-              Student Association about what a registered student organization
-              may solicit, and whether funds must be held in a university
-              account.
-            </li>
-            <li>
-              <strong>Committee status.</strong> Determine whether the chapter
-              needs to register with the Texas Ethics Commission or the FEC, and
-              what the resulting reporting and disclaimer obligations are.
-            </li>
-            <li>
-              <strong>Disclaimer text.</strong> If a disclaimer is required, put
-              the exact required language here and in the footer — replace the
-              placeholder line currently in{" "}
-              <code>components/SiteFooter.tsx</code>.
-            </li>
-            <li>
-              <strong>Who may give.</strong> Contributions from foreign nationals
-              are prohibited. Decide how you will screen for that and for
-              corporate money.
-            </li>
-            <li>
-              <strong>Tax treatment.</strong> Contributions to political
-              organizations are generally <em>not</em> tax-deductible as
-              charitable gifts. Do not imply otherwise.
-            </li>
-          </ul>
-          <p className="small muted">
-            This checklist is a prompt to go ask, not legal advice. Get an answer
-            from the university and from the party before you take a dollar.
-          </p>
-
-          <hr />
-
-          <h2>Other ways to help</h2>
-          <p>
-            Money is not the only thing we need — and for most students, time is
-            worth more.{" "}
-            <Link href="/events">Come to an event</Link>, bring a friend to a
-            canvass, or email{" "}
-            <a href={`mailto:${site.email}`}>{site.email}</a> if your
-            organization wants to sponsor one.
-          </p>
-        </div>
-      </section>
+      <Panel title="other ways to help">
+        <p className="text-gray-600">
+          money is not the only thing we need — for most students, time is worth
+          more.{" "}
+          <Link
+            href="/events"
+            className="hover:text-green-500 transition-colors duration-200"
+          >
+            come to an event
+          </Link>
+          , bring a friend to a canvass, or ask your organization to sponsor
+          one.
+        </p>
+      </Panel>
     </>
+  );
+
+  return (
+    <Layout sidebar={sidebar}>
+      <Panel title="where the money goes">
+        <div className="row-divide">
+          <div>
+            <h3 className="font-bold">voter registration</h3>
+            <p className="text-gray-600">
+              printing applications, tabling supplies, and deputy registrar
+              materials for drives on campus.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-bold">getting to the turf</h3>
+            <p className="text-gray-600">
+              gas, parking, and van rentals so members can canvass in
+              neighborhoods off campus.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-bold">programming</h3>
+            <p className="text-gray-600">
+              speaker travel, room and a/v costs, and food at meetings — the
+              thing that actually gets people in the room.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-bold">the banquet</h3>
+            <p className="text-gray-600">
+              one night a year to thank the members who knocked doors all
+              semester.
+            </p>
+          </div>
+        </div>
+      </Panel>
+
+      <Panel title="before you turn this on">
+        <p className="text-gray-600 mb-2 max-w-prose">
+          political fundraising has rules, and a student chapter sits between
+          campus policy and campaign finance law. confirm all of this before
+          publishing a donate link:
+        </p>
+        <ul className="row-divide">
+          <li>
+            <span className="font-bold">rice policy.</span>{" "}
+            <span className="text-gray-600">
+              check with student activities and the sa about what a registered
+              student organization may solicit, and whether funds must sit in a
+              university account.
+            </span>
+          </li>
+          <li>
+            <span className="font-bold">committee status.</span>{" "}
+            <span className="text-gray-600">
+              determine whether the chapter must register with the texas ethics
+              commission or the fec, and what reporting that triggers.
+            </span>
+          </li>
+          <li>
+            <span className="font-bold">disclaimer text.</span>{" "}
+            <span className="text-gray-600">
+              if a disclaimer is required, put the exact required language here
+              and in the footer — replace the placeholder in{" "}
+              <code>components/Footer.tsx</code>.
+            </span>
+          </li>
+          <li>
+            <span className="font-bold">who may give.</span>{" "}
+            <span className="text-gray-600">
+              contributions from foreign nationals are prohibited. decide how
+              you screen for that, and for corporate money.
+            </span>
+          </li>
+          <li>
+            <span className="font-bold">tax treatment.</span>{" "}
+            <span className="text-gray-600">
+              contributions to political organizations are generally not
+              tax-deductible as charitable gifts. do not imply otherwise.
+            </span>
+          </li>
+        </ul>
+        <p className="mt-2 text-gray-500 italic">
+          this is a prompt to go ask, not legal advice. get an answer from the
+          university and the party before you take a dollar.
+        </p>
+      </Panel>
+    </Layout>
   );
 }

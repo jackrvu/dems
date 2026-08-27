@@ -1,54 +1,57 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/PageHeader";
+import Layout from "@/components/Layout";
+import Panel from "@/components/Panel";
 import { photos } from "@/content/photos";
 
 export const metadata: Metadata = {
-  title: "Photos",
-  description: "Canvasses, meetings, banquets, and everything in between.",
+  title: "photos",
+  description: "canvasses, meetings, banquets, and everything in between.",
 };
 
 export default function PhotosPage() {
   return (
-    <>
-      <PageHeader
-        eyebrow="Photos"
-        title="The chapter, in pictures"
-        lede="Canvasses, meetings, banquets, and the occasional 6 a.m. call time."
-      />
+    <Layout>
+      <Panel title="photos" aside={photos.length ? `${photos.length}` : undefined}>
+        {photos.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {photos.map((p) => (
+              <figure key={p.src} className="m-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={p.src}
+                  alt={p.alt}
+                  loading="lazy"
+                  className="w-full aspect-[3/2] object-cover border border-black"
+                />
+                {p.caption || p.credit ? (
+                  <figcaption className="text-gray-600 mt-1">
+                    {p.caption}
+                    {p.credit ? (
+                      <span className="block text-3xs text-gray-500">
+                        {p.credit}
+                      </span>
+                    ) : null}
+                  </figcaption>
+                ) : null}
+              </figure>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500 italic">
+            no photos yet.
+          </p>
+        )}
+      </Panel>
 
-      <section className="section">
-        <div className="container">
-          {photos.length > 0 ? (
-            <div className="gallery">
-              {photos.map((p) => (
-                <figure key={p.src}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.src} alt={p.alt} loading="lazy" />
-                  {p.caption || p.credit ? (
-                    <figcaption>
-                      {p.caption}
-                      {p.credit ? (
-                        <span className="credit"> {p.credit}</span>
-                      ) : null}
-                    </figcaption>
-                  ) : null}
-                </figure>
-              ))}
-            </div>
-          ) : (
-            <div className="note">
-              <h4>No photos yet</h4>
-              <p className="small">
-                Add image files to <code>public/images/gallery/</code>, then list
-                them in <code>content/photos.ts</code> with a caption, a credit,
-                and alt text. Resize to roughly 1600&nbsp;px wide before
-                committing so the page stays fast — and get permission before
-                posting identifiable photos of people.
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
-    </>
+      <Panel title="adding photos">
+        <p className="text-gray-600">
+          drop files in <code>public/images/gallery/</code>, then list them in{" "}
+          <code>content/photos.ts</code> with alt text, a caption, and a credit.
+          resize to roughly 1600&nbsp;px wide before committing so the page
+          stays fast — and get permission before posting identifiable photos of
+          people.
+        </p>
+      </Panel>
+    </Layout>
   );
 }

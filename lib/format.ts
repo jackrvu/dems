@@ -30,3 +30,17 @@ export function monthAbbr(iso: string): string {
 export function dayNum(iso: string): string {
   return String(parseDate(iso).getDate());
 }
+
+/** "sep 8" — the compact lowercase form used in list rows. */
+export function formatCompact(iso: string): string {
+  return parseDate(iso)
+    .toLocaleDateString("en-US", { month: "short", day: "numeric" })
+    .toLowerCase();
+}
+
+/** "sep 8, 2026" — lowercase, with the year. */
+export function formatCompactYear(iso: string): string {
+  return parseDate(iso)
+    .toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+    .toLowerCase();
+}
