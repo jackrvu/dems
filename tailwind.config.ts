@@ -9,22 +9,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#030335",          // near-black navy, the base text color
-        "dem-blue": "#1a3fa0",   // accent for links / active nav
-        "dem-red": "#b3202c",    // used sparingly for dates & tags
+        ink: "#12143a",          // body text
+        line: "#dfe3ec",         // hairline borders on cards & rules
+        surface: "#f6f8fc",      // card headers, footer, hero band
+        "dem-blue": "#1a3fa0",   // primary accent: links, buttons, active nav
+        "dem-red": "#b3202c",    // sparing: dates, tags, donate
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       fontSize: {
         "2xs": "0.70rem",
-        "3xs": "0.55rem",
       },
       letterSpacing: {
         "very-tight": "-0.025em",
       },
-      backgroundImage: {
-        "dot-pattern": "radial-gradient(circle, #9aa6c4 0.5px, transparent 0.5px)",
-      },
-      backgroundSize: {
-        "dot-pattern": "5px 5px",
+      maxWidth: {
+        prose: "68ch",
       },
     },
   },

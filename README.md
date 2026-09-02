@@ -1,10 +1,10 @@
 # Rice Young Democrats — website
 
-A small, static Next.js site, styled after [jackvu.me](https://www.jackvu.me).
-Azeret Mono throughout, hard 1px black panels, tiny lowercase chrome, and a
-white card floating on a dotted field. All content lives in plain TypeScript
-files under `content/`, so anyone on the board can update the site by editing
-one file and opening a pull request.
+A small, static Next.js site. Conventional layout — sticky header, hero,
+contained column, cards, a real footer — with the type doing the personality:
+Inter for reading copy, Azeret Mono for the wordmark, section labels, dates and
+tags. All content lives in plain TypeScript files under `content/`, so anyone on
+the board can update the site by editing one file and opening a pull request.
 
 ## Run it locally
 
@@ -54,19 +54,20 @@ permission before posting identifiable photos of people.
 
 ## Design
 
-Tailwind, matching the setup on jackvu.me. The whole layout is built from one
-primitive — `components/Panel.tsx` — a bordered label strip with a `border-t-0`
-body box directly beneath it. Pages are a stack of panels, optionally in a
-1/3 sidebar + 2/3 main split via `components/Layout.tsx`.
+Tailwind. The repeating unit is `components/Panel.tsx` — a card with a mono
+label strip over a body box. `components/Layout.tsx` is the page shell: header,
+an optional title band (or a custom `hero`), the content column with an optional
+1/3 sidebar, and the footer.
 
-- `tailwind.config.ts` — colors (`ink`, `dem-blue`, `dem-red`), the `2xs`/`3xs`
-  type sizes, and `tracking-very-tight`
-- `app/globals.css` — the dotted background, the card width steps, and the
-  `.panel-head` / `.panel-body` / `.row-divide` rules
+- `tailwind.config.ts` — colors (`ink`, `line`, `surface`, `dem-blue`,
+  `dem-red`) and the `sans`/`mono` font families
+- `app/globals.css` — `.container-site` (the content column), `.card` /
+  `.card-head` / `.card-body`, `.btn` / `.btn-primary` / `.btn-outline`,
+  `.eyebrow` (small mono label), `.prose-link`, `.row-divide`, `.dotted`
 
-Chrome (nav, panel labels, tags, bylines) is lowercased in CSS; body prose stays
-sentence-case so the Resources and Stories pages remain readable. If you want it
-fully lowercase like jackvu.me, that's one `lowercase` class on the layout.
+Two conventions worth keeping consistent: panel titles stay lowercase (they're
+labels, not headings), and everything else is sentence case. The dotted field
+appears only on title bands and monogram tiles — it's an accent, not wallpaper.
 
 ## Deploying
 

@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const story = getStory(slug);
   if (!story) return { title: "story not found" };
-  return { title: story.title.toLowerCase(), description: story.excerpt };
+  return { title: story.title, description: story.excerpt };
 }
 
 export default async function StoryPage({ params }: Props) {
@@ -29,14 +29,14 @@ export default async function StoryPage({ params }: Props) {
   const sidebar = (
     <>
       <Panel title="byline">
-        <p className="font-semibold lowercase">{story.author}</p>
+        <p className="font-semibold">{story.author}</p>
         {story.role ? (
-          <p className="text-gray-600 lowercase">{story.role}</p>
+          <p className="text-sm text-ink/60">{story.role}</p>
         ) : null}
-        <p className="text-gray-600 mt-2">{formatCompactYear(story.date)}</p>
-        {story.kind ? (
-          <p className="text-dem-red lowercase">{story.kind}</p>
-        ) : null}
+        <p className="font-mono text-xs uppercase tracking-wide text-ink/55 mt-3">
+          {formatCompactYear(story.date)}
+          {story.kind ? ` · ${story.kind}` : ""}
+        </p>
       </Panel>
 
       {others.length > 0 ? (
@@ -48,10 +48,10 @@ export default async function StoryPage({ params }: Props) {
                   href={`/stories/${s.slug}`}
                   className="flex flex-row items-baseline gap-3 group"
                 >
-                  <span className="text-gray-600 shrink-0 tabular-nums">
+                  <span className="font-mono text-xs uppercase tracking-wide text-ink/55 shrink-0 tabular-nums pt-0.5">
                     {formatCompactYear(s.date)}
                   </span>
-                  <span className="group-hover:text-green-500 transition-colors duration-200">
+                  <span className="group-hover:text-dem-blue transition-colors">
                     {s.title}
                   </span>
                 </Link>
@@ -62,30 +62,27 @@ export default async function StoryPage({ params }: Props) {
       ) : null}
 
       <Panel title="index">
-        <Link
-          href="/stories"
-          className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
-        >
-          all stories
+        <Link href="/stories" className="prose-link">
+          All stories
         </Link>
       </Panel>
     </>
   );
 
   return (
-    <Layout sidebar={sidebar}>
+    <Layout sidebar={sidebar} title={story.title} intro={story.excerpt}>
       <article>
-        <Panel title={story.title}>
+        <Panel title={story.kind ? story.kind : "story"}>
           {story.image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={story.image}
               alt=""
-              className="w-full border border-black mb-3"
+              className="w-full border border-line rounded mb-3"
             />
           ) : null}
 
-          <div className="space-y-3 max-w-prose leading-relaxed">
+          <div className="space-y-4 max-w-prose leading-[1.75]">
             {story.body.map((para, i) => (
               <p key={i}>{para}</p>
             ))}

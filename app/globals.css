@@ -4,93 +4,148 @@
 @tailwind utilities;
 
 /* ---------------------------------------------------------------
-   The page is a white card floating on a textured field. Same idea
-   as jackvu.me, with a flat dotted background instead of a gif so
-   there's no asset to load.
+   Conventional site chrome — white page, contained column, sticky
+   header, cards. The house voice lives in the mono type used for
+   headings, labels and dates, and in the dotted field that shows up
+   as an accent rather than as wallpaper.
    --------------------------------------------------------------- */
-
-body {
-  background-color: #eef1f7;
-  position: relative;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-color: #eef1f7;
-  background-image: radial-gradient(circle, #b9c3da 0.6px, transparent 0.6px);
-  background-size: 6px 6px;
-  z-index: -2;
-}
-
-/* A soft wash so the dots never fight the card. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.35);
-  pointer-events: none;
-  z-index: -1;
-}
 
 html,
 body {
-  color: #030335;
-  min-height: 100vh;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
 }
 
-/* Card width, matching the stepped widths on jackvu.me */
-.custom-width {
-  width: 100%;
+body {
+  background-color: #fff;
+  color: theme("colors.ink");
+  -webkit-font-smoothing: antialiased;
 }
 
-@media (min-width: 600px) {
-  .custom-width { width: 82%; }
+a {
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-@media (min-width: 1000px) {
-  .custom-width { width: 68%; }
+@layer components {
+  /* The content column. Everything lines up to this. */
+  .container-site {
+    width: 100%;
+    max-width: 68rem;
+    margin: 0 auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  /* Card: a label strip over a body box, softened into something a
+     normal site would use. Utilities still win over these, so
+     bodyClassName="p-0" works for flush content like the calendar. */
+  .card {
+    border: 1px solid theme("colors.line");
+    border-radius: 0.5rem;
+    background: #fff;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background: theme("colors.surface");
+    border-bottom: 1px solid theme("colors.line");
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  /* Rows inside a card: a hairline between, no box around each. */
+  .row-divide > * + * {
+    border-top: 1px solid theme("colors.line");
+    padding-top: 0.875rem;
+    margin-top: 0.875rem;
+  }
+
+  /* Filled and outlined buttons. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    border: 1px solid transparent;
+    transition: background-color 0.15s ease, color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .btn-primary {
+    background: theme("colors.dem-blue");
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: #16357f;
+  }
+
+  .btn-outline {
+    border-color: theme("colors.line");
+    color: theme("colors.ink");
+    background: #fff;
+  }
+
+  .btn-outline:hover {
+    border-color: theme("colors.dem-blue");
+    color: theme("colors.dem-blue");
+  }
+
+  /* Small mono label — section eyebrows, tags, dates. */
+  .eyebrow {
+    font-family: theme("fontFamily.mono");
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #5b6480;
+  }
+
+  /* Body copy links. */
+  .prose-link {
+    color: theme("colors.dem-blue");
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: #b9c6e8;
+  }
+
+  .prose-link:hover {
+    text-decoration-color: theme("colors.dem-blue");
+  }
 }
 
-a { transition: color 0.2s ease; }
-
-/* ---------------------------------------------------------------
-   Panels. The core unit of the layout: a bordered strip with the
-   section label, then a border-t-0 box directly beneath it holding
-   the content. See components/Panel.tsx.
-   --------------------------------------------------------------- */
-
-.panel-head {
-  border: 1px solid #000;
-  padding: 0.5rem;
-  width: 100%;
+/* Dotted field — the one bit of texture, used on title bands and as a
+   placeholder tile for board members without a headshot. */
+.dotted {
+  background-image: radial-gradient(circle, #c4cde0 0.7px, transparent 0.7px);
+  background-size: 6px 6px;
 }
 
-.panel-body {
-  border: 1px solid #000;
-  border-top: 0;
-  padding: 0.5rem;
-  width: 100%;
-  margin-bottom: 1rem;
+.monogram {
+  background-color: theme("colors.surface");
+  background-image: radial-gradient(circle, #c4cde0 0.7px, transparent 0.7px);
+  background-size: 6px 6px;
 }
 
-/* Rows inside a panel get a hairline between them, not a full border. */
-.row-divide > * + * {
-  border-top: 1px dotted #9aa6c4;
-  padding-top: 0.5rem;
-  margin-top: 0.5rem;
+/* Wordmark-ish tighter leading for hero copy. */
+.hero-title {
+  letter-spacing: -0.03em;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; }
-}
-
-/* Placeholder tile shown for board members without a headshot. */
-.monogram {
-  background-color: #f4f6fb;
-  background-image: radial-gradient(circle, #b9c3da 0.6px, transparent 0.6px);
-  background-size: 6px 6px;
+  * {
+    transition: none !important;
+  }
 }

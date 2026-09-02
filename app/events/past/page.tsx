@@ -7,8 +7,8 @@ import { pastEvents } from "@/content/events";
 import { parseDate } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "past events",
-  description: "an archive of what the chapter has organized.",
+  title: "Past events",
+  description: "An archive of what the chapter has organized.",
 };
 
 export default function PastEventsPage() {
@@ -23,7 +23,10 @@ export default function PastEventsPage() {
   const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
 
   return (
-    <Layout>
+    <Layout
+      title="Past events"
+      intro="An archive of what the chapter has organized."
+    >
       {years.length > 0 ? (
         years.map((year) => (
           <Panel
@@ -36,16 +39,16 @@ export default function PastEventsPage() {
         ))
       ) : (
         <Panel title="archive">
-          <p className="text-gray-500 italic">no past events recorded yet.</p>
+          <p className="text-ink/55 italic">No past events recorded yet.</p>
         </Panel>
       )}
 
       <p className="mt-2">
         <Link
           href="/events"
-          className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
+          className="prose-link"
         >
-          back to upcoming
+          Back to upcoming events
         </Link>
       </p>
     </Layout>

@@ -9,52 +9,45 @@ export default function Header() {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  return (
-    <header className="py-6 mb-6 border-b border-black">
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2">
-        <div>
-          <h1 className="text-xl lg:text-2xl font-bold lowercase tracking-very-tight">
-            {site.name}
-          </h1>
-          <p className="text-xs lg:text-sm text-gray-700 lowercase">
-            {site.tagline}
-          </p>
-        </div>
+  const linkClass = (href: string) =>
+    `py-1 border-b-2 transition-colors ${
+      isActive(href)
+        ? "border-dem-blue text-dem-blue font-semibold"
+        : "border-transparent text-ink/75 hover:text-dem-blue"
+    }`;
 
-        <nav>
-          <ul className="flex flex-wrap gap-x-4 gap-y-1 text-2xs lg:text-sm lowercase">
+  return (
+    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-line">
+      <div className="container-site flex flex-wrap items-center gap-y-3 justify-between py-3">
+        <Link href="/" className="flex items-center gap-3 group">
+          <span className="w-9 h-9 shrink-0 rounded bg-dem-blue text-white font-mono font-semibold text-sm flex items-center justify-center">
+            {site.shortName.toLowerCase()}
+          </span>
+          <span className="leading-tight">
+            <span className="block font-mono font-semibold text-[15px] tracking-very-tight group-hover:text-dem-blue transition-colors">
+              {site.name}
+            </span>
+            <span className="block text-xs text-ink/60">{site.tagline}</span>
+          </span>
+        </Link>
+
+        <nav aria-label="Main">
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
             <li>
-              <Link
-                href="/"
-                className={`transition-colors duration-200 hover:text-indigo-500 ${
-                  isActive("/") ? "font-semibold text-dem-blue" : ""
-                }`}
-              >
-                home
+              <Link href="/" className={linkClass("/")}>
+                Home
               </Link>
             </li>
             {nav.map((item) => (
               <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`transition-colors duration-200 hover:text-indigo-500 ${
-                    isActive(item.href) ? "font-semibold text-dem-blue" : ""
-                  }`}
-                >
+                <Link href={item.href} className={linkClass(item.href)}>
                   {item.label}
                 </Link>
               </li>
             ))}
             <li>
-              <Link
-                href="/donate"
-                className={`transition-colors duration-200 hover:text-dem-red ${
-                  isActive("/donate")
-                    ? "font-semibold text-dem-red"
-                    : "text-dem-red/80"
-                }`}
-              >
-                donate
+              <Link href="/donate" className="btn btn-primary py-1.5 px-3">
+                Donate
               </Link>
             </li>
           </ul>

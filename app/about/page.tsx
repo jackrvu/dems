@@ -5,8 +5,8 @@ import { board, committees } from "@/content/team";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "about",
-  description: "who we are, what we do, and the students who run it.",
+  title: "About",
+  description: "Who we are, what we do, and the students who run it.",
 };
 
 function initials(name: string) {
@@ -21,20 +21,20 @@ export default function AboutPage() {
     <>
       <Panel title="mission">
         <p>
-          rice young democrats exists to give students a practical way to act on
+          Rice Young Democrats exists to give students a practical way to act on
           their politics.
         </p>
-        <p className="mt-2 text-gray-600">
-          that means the unglamorous work — registration tables, door knocking,
+        <p className="mt-3 text-ink/70">
+          That means the unglamorous work — registration tables, door knocking,
           phone banks, rides to the polls — alongside the conversations that
           make the work worth doing.
         </p>
-        <p className="mt-2 text-gray-600">
-          you do not need experience, a poli sci major, or a settled opinion on
-          every issue. you need to be willing to show up.
+        <p className="mt-3 text-ink/70">
+          You don&rsquo;t need experience, a poli sci major, or a settled
+          opinion on every issue. You need to be willing to show up.
         </p>
-        <p className="mt-2 text-gray-500 italic">
-          replace this copy in app/about/page.tsx with the club&rsquo;s own
+        <p className="mt-3 text-sm text-ink/55 italic">
+          Replace this copy in app/about/page.tsx with the club&rsquo;s own
           words.
         </p>
       </Panel>
@@ -42,21 +42,21 @@ export default function AboutPage() {
       <Panel title="reach us">
         <a
           href={`mailto:${site.email}`}
-          className="hover:text-indigo-400 transition-colors duration-200"
+          className="prose-link"
         >
           {site.email}
         </a>
-        <p className="mt-2 text-gray-600">{site.mailingAddress}</p>
+        <p className="mt-2 text-ink/70">{site.mailingAddress}</p>
       </Panel>
 
       <Panel title="committees">
         <div className="row-divide">
           {committees.map((c) => (
             <div key={c.name}>
-              <h3 className="font-bold lowercase">{c.name}</h3>
-              <p className="text-gray-600">{c.description}</p>
+              <h3 className="font-semibold">{c.name}</h3>
+              <p className="text-ink/70">{c.description}</p>
               {c.lead ? (
-                <p className="text-gray-600">lead: {c.lead}</p>
+                <p className="text-ink/70">lead: {c.lead}</p>
               ) : null}
             </div>
           ))}
@@ -66,7 +66,11 @@ export default function AboutPage() {
   );
 
   return (
-    <Layout sidebar={sidebar}>
+    <Layout
+      sidebar={sidebar}
+      title="About"
+      intro="Who we are, what we do, and the students who run it."
+    >
       <Panel title="executive board" aside={`${board.length} members`}>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {board.map((m, i) => (
@@ -76,29 +80,31 @@ export default function AboutPage() {
                 <img
                   src={m.image}
                   alt={m.name}
-                  className="w-full aspect-[4/5] object-cover border border-black mb-1"
+                  className="w-full aspect-[4/5] object-cover border border-line rounded mb-1"
                 />
               ) : (
                 <div
-                  className="w-full aspect-[4/5] border border-black mb-1 flex items-center justify-center monogram text-base text-gray-500"
+                  className="w-full aspect-[4/5] border border-line rounded mb-1 flex items-center justify-center monogram text-base text-ink/55"
                   aria-hidden="true"
                 >
                   {initials(m.name)}
                 </div>
               )}
-              <h3 className="font-bold">{m.name}</h3>
-              <p className="text-dem-red lowercase">{m.role}</p>
-              <p className="text-gray-600 lowercase">
+              <h3 className="font-semibold">{m.name}</h3>
+              <p className="font-mono text-xs text-dem-red uppercase tracking-wide mt-0.5">
+                {m.role}
+              </p>
+              <p className="text-sm text-ink/60">
                 {[m.year, m.college, m.major].filter(Boolean).join(" · ")}
               </p>
-              {m.bio ? <p className="text-gray-600 mt-1">{m.bio}</p> : null}
+              {m.bio ? <p className="text-sm text-ink/70 mt-2">{m.bio}</p> : null}
               {m.email ? (
                 <p className="mt-1">
                   <a
                     href={`mailto:${m.email}`}
-                    className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
+                    className="prose-link text-sm"
                   >
-                    email
+                    Email
                   </a>
                 </p>
               ) : null}

@@ -5,8 +5,8 @@ import { partners } from "@/content/partners";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "partners",
-  description: "campus organizations, county and state parties, and coalitions we work with.",
+  title: "Partners",
+  description: "Campus organizations, county and state parties, and coalitions we work with.",
 };
 
 const order = ["Campus", "Local", "State", "National"] as const;
@@ -18,12 +18,12 @@ export default function PartnersPage() {
 
   const sidebar = (
     <Panel title="partner with us">
-      <p className="text-gray-600">
-        we co-host events, share volunteers, and turn out members for causes we
-        support. email{" "}
+      <p className="text-ink/70">
+        We co-host events, share volunteers, and turn out members for causes we
+        support. Email{" "}
         <a
           href={`mailto:${site.email}`}
-          className="hover:text-indigo-400 transition-colors duration-200"
+          className="prose-link"
         >
           {site.email}
         </a>{" "}
@@ -33,9 +33,17 @@ export default function PartnersPage() {
   );
 
   return (
-    <Layout sidebar={sidebar}>
+    <Layout
+      sidebar={sidebar}
+      title="Partners"
+      intro="Campus organizations, county and state parties, and coalitions we work with."
+    >
       {grouped.map((g) => (
-        <Panel key={g.cat} title={g.cat} aside={`${g.items.length}`}>
+        <Panel
+          key={g.cat}
+          title={g.cat.toLowerCase()}
+          aside={`${g.items.length}`}
+        >
           <div className="row-divide">
             {g.items.map((p) => (
               <div key={p.name}>
@@ -43,11 +51,11 @@ export default function PartnersPage() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={p.logo} alt={p.name} className="h-8 w-auto mb-1" />
                 ) : null}
-                <h3 className="font-bold">
+                <h3 className="font-semibold">
                   {p.url ? (
                     <a
                       href={p.url}
-                      className="hover:text-green-500 transition-colors duration-200"
+                      className="prose-link"
                     >
                       {p.name}
                     </a>
@@ -55,7 +63,7 @@ export default function PartnersPage() {
                     p.name
                   )}
                 </h3>
-                <p className="text-gray-600 max-w-prose">{p.description}</p>
+                <p className="text-ink/70 max-w-prose">{p.description}</p>
               </div>
             ))}
           </div>

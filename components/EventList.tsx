@@ -1,14 +1,14 @@
 import type { EventItem } from "@/content/events";
 import { formatCompact, formatCompactYear } from "@/lib/format";
 
-/* Compact rows: date on the left, title and details on the right.
-   `detailed` adds the description and location beneath each title. */
+/* Date on the left in mono, details on the right.
+   `detailed` adds the description and an RSVP link. */
 
 export default function EventList({
   events,
   detailed = false,
   showYear = false,
-  empty = "nothing on the calendar right now.",
+  empty = "Nothing on the calendar right now.",
 }: {
   events: EventItem[];
   detailed?: boolean;
@@ -16,47 +16,44 @@ export default function EventList({
   empty?: string;
 }) {
   if (events.length === 0) {
-    return <p className="text-gray-500 italic">{empty}</p>;
+    return <p className="text-ink/55 italic">{empty}</p>;
   }
 
   return (
-    <ul className={detailed ? "row-divide" : "space-y-1"}>
+    <ul className={detailed ? "row-divide" : "space-y-3"}>
       {events.map((e) => (
-        <li key={e.slug}>
-          <div className="flex flex-row items-baseline gap-3">
-            <span className="text-gray-600 shrink-0 tabular-nums">
-              {showYear ? formatCompactYear(e.date) : formatCompact(e.date)}
-            </span>
-            <span className="font-semibold">{e.title}</span>
-            {e.tag ? (
-              <span className="text-3xs text-dem-red lowercase shrink-0">
-                {e.tag}
-              </span>
-            ) : null}
-          </div>
+        <li key={e.slug} className="flex gap-4">
+          <span className="font-mono text-xs text-dem-red uppercase tracking-wide shrink-0 w-20 pt-0.5 tabular-nums">
+            {showYear ? formatCompactYear(e.date) : formatCompact(e.date)}
+          </span>
 
-          {detailed ? (
-            <>
-              <p className="text-gray-600 mt-1">
-                {[e.time, e.location].filter(Boolean).join(" · ")}
-              </p>
-              <p className="mt-1 max-w-prose">{e.description}</p>
-              {e.rsvpUrl ? (
-                <p className="mt-1">
-                  <a
-                    href={e.rsvpUrl}
-                    className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
-                  >
-                    rsvp
-                  </a>
-                </p>
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              <h3 className="font-semibold">{e.title}</h3>
+              {e.tag ? (
+                <span className="eyebrow rounded border border-line bg-surface px-1.5 py-0.5">
+                  {e.tag}
+                </span>
               ) : null}
-            </>
-          ) : (
-            <p className="text-gray-600">
+            </div>
+
+            <p className="text-sm text-ink/60">
               {[e.time, e.location].filter(Boolean).join(" · ")}
             </p>
-          )}
+
+            {detailed ? (
+              <>
+                <p className="mt-2 max-w-prose text-ink/80">{e.description}</p>
+                {e.rsvpUrl ? (
+                  <p className="mt-2">
+                    <a href={e.rsvpUrl} className="btn btn-outline text-xs py-1 px-3">
+                      RSVP
+                    </a>
+                  </p>
+                ) : null}
+              </>
+            ) : null}
+          </div>
         </li>
       ))}
     </ul>

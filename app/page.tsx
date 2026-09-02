@@ -8,105 +8,101 @@ import { stories } from "@/content/stories";
 import { partners } from "@/content/partners";
 import { formatCompact } from "@/lib/format";
 
+const work = [
+  {
+    title: "Register voters",
+    body: "Texas still has no online registration. We table on campus with certified deputy registrars so students can register, update an address, or request a mail ballot.",
+  },
+  {
+    title: "Knock doors",
+    body: "We canvass and phonebank for Democratic candidates in Harris County and across Texas. Training provided, no experience needed.",
+  },
+  {
+    title: "Host the conversation",
+    body: "Speakers, candidate forums, debate watch parties, and arguments among ourselves about what the party should be doing.",
+  },
+  {
+    title: "Build a community",
+    body: "Politics is easier with people. Meetings, dinners, and a group of students who care about the same things you do.",
+  },
+];
+
 export default function HomePage() {
+  const hero = (
+    <div className="border-b border-line bg-surface dotted">
+      <div className="container-site py-14 sm:py-20">
+        <p className="eyebrow">Rice University · Student chapter</p>
+        <h1 className="hero-title mt-3 font-mono font-semibold text-3xl sm:text-4xl max-w-3xl">
+          Politics you can actually show up to.
+        </h1>
+        <p className="mt-4 max-w-prose text-base leading-relaxed text-ink/75">
+          We register voters, knock doors, host speakers, and build a political
+          community on campus. Open to every Rice student — no experience, no
+          poli sci major, and no settled opinion on every issue required.
+        </p>
+        <div className="mt-7 flex flex-wrap gap-3">
+          <Link href="/events" className="btn btn-primary">
+            Come to a meeting
+          </Link>
+          <Link href="/resources" className="btn btn-outline">
+            Register to vote
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+
   const sidebar = (
     <>
-      <Panel title="about us">
-        <p className="tracking-very-tight">
-          the student chapter of the democratic party at rice university.
-        </p>
-        <p className="mt-2 text-gray-600">
-          we register voters, knock doors, host speakers, and build a political
-          community on campus. open to every rice student.
+      <Panel title="next up" aside={`${upcomingEvents.length} scheduled`}>
+        <EventList events={upcomingEvents.slice(0, 3)} />
+        <p className="mt-4">
+          <Link href="/events" className="prose-link">
+            Full calendar
+          </Link>
         </p>
       </Panel>
 
-      <Panel title="status">
-        <p>{site.meetingBlurb.toLowerCase()}</p>
+      <Panel title="meetings">
+        <p className="text-ink/80">{site.meetingBlurb}</p>
       </Panel>
 
-      <Panel title="contacts">
-        <ul className="space-y-1">
+      <Panel title="contact">
+        <ul className="space-y-1.5">
           <li>
-            <a
-              href={`mailto:${site.email}`}
-              className="hover:text-indigo-400 transition-colors duration-200"
-            >
+            <a href={`mailto:${site.email}`} className="prose-link">
               {site.email}
             </a>
           </li>
           {site.links.instagram ? (
             <li>
-              <a
-                href={site.links.instagram}
-                className="hover:text-fuchsia-400 transition-colors duration-200"
-              >
-                instagram
+              <a href={site.links.instagram} className="prose-link">
+                Instagram
               </a>
             </li>
           ) : null}
           {site.links.groupme ? (
             <li>
-              <a
-                href={site.links.groupme}
-                className="hover:text-blue-400 transition-colors duration-200"
-              >
-                groupme
+              <a href={site.links.groupme} className="prose-link">
+                GroupMe
               </a>
             </li>
           ) : null}
           <li>
-            <Link
-              href="/about"
-              className="hover:text-green-500 transition-colors duration-200"
-            >
-              meet the board
-            </Link>
-          </li>
-        </ul>
-      </Panel>
-
-      <Panel title="get involved">
-        <ul className="space-y-1">
-          <li>
-            <Link
-              href="/resources"
-              className="hover:text-green-500 transition-colors duration-200"
-            >
-              register to vote in texas
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/events"
-              className="hover:text-green-500 transition-colors duration-200"
-            >
-              come to a meeting
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/donate"
-              className="hover:text-dem-red transition-colors duration-200"
-            >
-              fund the chapter
+            <Link href="/about" className="prose-link">
+              Meet the board
             </Link>
           </li>
         </ul>
       </Panel>
 
       <Panel title="partners" aside={`${partners.length}`}>
-        <ul className="space-y-1">
+        <ul className="space-y-2">
           {partners.slice(0, 5).map((p) => (
-            <li key={p.name} className="flex items-baseline gap-2">
-              <span className="text-gray-600 text-3xs shrink-0 lowercase">
-                {p.category}
-              </span>
+            <li key={p.name}>
+              <span className="eyebrow mr-2">{p.category}</span>
               {p.url ? (
-                <a
-                  href={p.url}
-                  className="hover:text-green-500 transition-colors duration-200"
-                >
+                <a href={p.url} className="prose-link">
                   {p.name}
                 </a>
               ) : (
@@ -115,12 +111,9 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
-        <p className="mt-2">
-          <Link
-            href="/partners"
-            className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
-          >
-            all partners
+        <p className="mt-4">
+          <Link href="/partners" className="prose-link">
+            All partners
           </Link>
         </p>
       </Panel>
@@ -128,81 +121,41 @@ export default function HomePage() {
   );
 
   return (
-    <Layout sidebar={sidebar}>
-      <Panel title="upcoming" aside={`${upcomingEvents.length} scheduled`}>
-        <EventList events={upcomingEvents.slice(0, 5)} />
-        <p className="mt-2">
-          <Link
-            href="/events"
-            className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
-          >
-            full calendar
-          </Link>
-        </p>
-      </Panel>
-
+    <Layout hero={hero} sidebar={sidebar}>
       <Panel title="what we do">
-        <div className="space-y-3">
-          <div>
-            <h3 className="font-bold">register voters</h3>
-            <p className="text-gray-600">
-              texas still has no online registration. we table on campus with
-              certified deputy registrars so students can register, update an
-              address, or request a mail ballot.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-bold">knock doors</h3>
-            <p className="text-gray-600">
-              we canvass and phonebank for democratic candidates in harris
-              county and across texas. training provided, no experience needed.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-bold">host the conversation</h3>
-            <p className="text-gray-600">
-              speakers, candidate forums, debate watch parties, and arguments
-              among ourselves about what the party should be doing.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-bold">build a community</h3>
-            <p className="text-gray-600">
-              politics is easier with people. meetings, dinners, and a group of
-              students who care about the same things you do.
-            </p>
-          </div>
+        <div className="grid gap-6 sm:grid-cols-2">
+          {work.map((w) => (
+            <div key={w.title}>
+              <h3 className="font-semibold">{w.title}</h3>
+              <p className="mt-1 text-ink/70">{w.body}</p>
+            </div>
+          ))}
         </div>
       </Panel>
 
       <Panel title="stories">
         {stories.length > 0 ? (
-          <ul className="space-y-1">
+          <ul className="space-y-3">
             {stories.slice(0, 6).map((s) => (
-              <li key={s.slug}>
+              <li key={s.slug} className="flex gap-4">
+                <span className="font-mono text-xs text-ink/50 uppercase tracking-wide shrink-0 w-20 pt-0.5 tabular-nums">
+                  {formatCompact(s.date)}
+                </span>
                 <Link
                   href={`/stories/${s.slug}`}
-                  className="flex flex-row items-baseline gap-3 group"
+                  className="font-semibold hover:text-dem-blue transition-colors"
                 >
-                  <span className="text-gray-600 shrink-0 tabular-nums">
-                    {formatCompact(s.date)}
-                  </span>
-                  <span className="group-hover:text-green-500 transition-colors duration-200">
-                    {s.title}
-                  </span>
+                  {s.title}
                 </Link>
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-gray-500 italic">nothing published yet.</p>
+          <p className="text-ink/55 italic">Nothing published yet.</p>
         )}
-        <p className="mt-2">
-          <Link
-            href="/stories"
-            className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
-          >
-            all stories
+        <p className="mt-4">
+          <Link href="/stories" className="prose-link">
+            All stories
           </Link>
         </p>
       </Panel>

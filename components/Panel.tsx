@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 
-/* The layout primitive: a bordered label strip with a border-t-0 body
-   box beneath it. Everything on the site is built out of these. */
+/* A card with a mono label strip. The site's one repeating unit. */
 
 export default function Panel({
   title,
@@ -10,17 +9,19 @@ export default function Panel({
   bodyClassName = "",
 }: {
   title: string;
-  aside?: ReactNode;   // small right-aligned text in the label strip
+  aside?: ReactNode;   // small right-aligned note in the label strip
   children: ReactNode;
   bodyClassName?: string;
 }) {
   return (
-    <>
-      <div className="panel-head flex items-baseline justify-between gap-2">
-        <h2 className="font-semibold lowercase">{title}</h2>
-        {aside ? <span className="text-3xs text-gray-600">{aside}</span> : null}
+    <section className="card">
+      <div className="card-head">
+        <h2 className="font-mono font-semibold text-sm tracking-very-tight">
+          {title}
+        </h2>
+        {aside ? <span className="eyebrow shrink-0">{aside}</span> : null}
       </div>
-      <div className={`panel-body ${bodyClassName}`}>{children}</div>
-    </>
+      <div className={`card-body ${bodyClassName}`}>{children}</div>
+    </section>
   );
 }
